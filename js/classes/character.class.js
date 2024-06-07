@@ -42,19 +42,22 @@ class Character extends MovableObject {
         setInterval(() => {
             this.walking_sound.pause();
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-                this.x += this.speed;
+                //this.x += this.speed;
+                this.moveRight();
                 this.otherDirection = false;
                 this.walking_sound.play();
             }
-            if (this.world.keyboard.LEFT && this.x > -400) {
-                this.x -= this.speed;
+            if (this.world.keyboard.LEFT && this.x > -400) {             
+                this.moveLeft();
                 this.otherDirection = true;
                 this.walking_sound.play();
             }
             
             if (this.world.keyboard.UP && !this.isAboveGround()) {
+                this.jump();
                 this.speedY = 30;
             }
+
             this.world.camera_x = -this.x + 100
         }, 1000 / 60);
 
