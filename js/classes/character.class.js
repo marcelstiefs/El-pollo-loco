@@ -1,7 +1,7 @@
 class Character extends MovableObject {
     height = 300;
     y = 128
-    speed = 1.8;
+    speed = 2.5;
 
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
@@ -55,7 +55,7 @@ class Character extends MovableObject {
             
             if (this.world.keyboard.UP && !this.isAboveGround()) {
                 this.jump();
-                this.speedY = 30;
+                //this.speedY = 30;
             }
 
             this.world.camera_x = -this.x + 100
@@ -78,7 +78,5 @@ class Character extends MovableObject {
 
 
 
-    jump() {
-
-    }
+   
 }

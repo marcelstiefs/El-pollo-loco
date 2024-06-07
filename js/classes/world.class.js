@@ -1,6 +1,6 @@
 class World {
     character = new Character();
-   level = level1;
+    level = level1;
     canvas;
     ctx;
     keyboard;
@@ -44,15 +44,26 @@ class World {
 
     addToMap(mo) {
         if (mo.otherDirection) {
-            this.ctx.save();
-            this.ctx.translate(mo.width, 0);
-            this.ctx.scale(-1, 1);
-            mo.x = mo.x * -1;
+            flipImage(mo);
         }
-        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+        mo.draw(this.ctx);
+        mo.drawFrame(this.ctx);
+        
+
+      
+
         if (mo.otherDirection) {
-            mo.x = mo.x * -1;
-            this.ctx.restore();
+            flipImageBack(mo);
         }
+    }
+    flipImage(mo){
+        this.ctx.save();
+        this.ctx.translate(mo.width, 0);
+        this.ctx.scale(-1, 1);
+        mo.x = mo.x * -1;
+    }
+    flipImageBack(mo){
+        mo.x = mo.x * -1;
+        this.ctx.restore();
     }
 }
