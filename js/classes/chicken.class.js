@@ -24,7 +24,7 @@ animate() {
     
     setInterval(() => {
         this.moveLeft();
-       // this.playAnimation(this.IMAGES_WALKING);
+       
     }, 1000 / 60);
     setInterval(() => {
         this.playAnimation(this.IMAGES_WALKING);
