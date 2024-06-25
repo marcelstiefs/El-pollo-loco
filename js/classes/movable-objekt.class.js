@@ -1,5 +1,5 @@
 class MovableObject extends DrawableObjekt {
-   
+
     speed = 0.15;
     otherDirection = false;
     speedY = 0;
@@ -17,10 +17,14 @@ class MovableObject extends DrawableObjekt {
     }
 
     isAboveGround() {
-        return this.y < 128;
+        if (this instanceof ThrowableObject) {//Throwable Objekt shut always fall
+            return true;
+        } else {
+            return this.y < 128;
+        }
     }
 
-  
+
 
 
     isColliding(mo) {
@@ -47,30 +51,30 @@ class MovableObject extends DrawableObjekt {
     }
 
 
-isDead() {
-    return this.energy == 0;
-}
+    isDead() {
+        return this.energy == 0;
+    }
 
-playAnimation(images) {
-    let i = this.currentImage % images.length;
-    let path = images[i];
-    this.img = this.imageCache[path];
-    this.currentImage++;
-}
+    playAnimation(images) {
+        let i = this.currentImage % images.length;
+        let path = images[i];
+        this.img = this.imageCache[path];
+        this.currentImage++;
+    }
 
-moveLeft() {
-    this.x -= this.speed;
-
-
-}
-
-moveRight() {
-    //  setInterval(() => {
-    this.x += this.speed;
-}//, 1000 / 60);}
+    moveLeft() {
+        this.x -= this.speed;
 
 
-jump() {
-    this.speedY = 30;
-}
+    }
+
+    moveRight() {
+        //  setInterval(() => {
+        this.x += this.speed;
+    }//, 1000 / 60);}
+
+
+    jump() {
+        this.speedY = 30;
+    }
 }
