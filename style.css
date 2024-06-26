@@ -1,8 +1,18 @@
+@font-face {
+    font-family:'viva';
+    src: url('fonts/vivamexico.ttf') format('truetype');
+}
+
+
 body{
     display: flex;
     align-items: center;
     flex-direction: column;
     justify-content: center;
+    background-image: url(img/desertBodyBackground.jpg);
+    background-position: center;
+    font-family:'viva';
+    font-size: 20px;
 }
 
 canvas{
