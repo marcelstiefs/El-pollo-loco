@@ -32,7 +32,24 @@ class MovableObject extends DrawableObjekt {
             this.y + this.height > mo.y &&
             this.x < mo.x &&
             this.y < mo.y + mo.height
+            
     }
+
+ /*   isCollidingCoin(obj) {
+        return (this.X + this.width) >= obj.X && this.X <= (obj.X + obj.width) &&
+            (this.Y + this.offsetY + this.height) >= obj.Y &&
+            (this.Y + this.offsetY) <= (obj.Y + obj.height)
+    }
+
+    checkCollisionsWithCoins(coins) {
+        for (let i = this.coins.length - 1; i >= 0; i--) {
+            if (this.isCollidingCoin(coins[i])) {
+                coins.splice(i, 1); // Remove the coin from the array
+                console.log('Coin collected!');
+            }
+        }
+    }
+*/
 
     hit() {
 
@@ -77,4 +94,5 @@ class MovableObject extends DrawableObjekt {
     jump() {
         this.speedY = 30;
     }
+   
 }
