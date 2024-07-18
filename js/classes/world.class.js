@@ -5,10 +5,12 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
-    statusBar = new StatusBar();
+    statusBar = new HealthStatusbar();
+    salsaStatusBar = new SalsaStatusbar();
     throwableObjects = [];
     collectedBottles = 0;
     maxBottles = 6;
+    collectedCoins = 0;
     
 
     constructor(canvas, keyboard) {
@@ -47,7 +49,7 @@ class World {
             if (this.character.isColliding(enemy)) {
 
                 this.character.hit();
-                this.statusBar.setPercetage(this.character.energy);
+                this.statusBar.setPercentage(this.character.energy);
                 console.log(this.character.energy);
             }
         });
@@ -59,7 +61,7 @@ class World {
             if (this.character.isColliding(coin)) {
 
                 //this.character.hit();
-                //this.statusBar.setPercetage(this.character.energy);
+                this.statusBar.setPercentage(this.character.energy);
                 console.log(coin);
                 this.collectCoins(coin);
             }
@@ -109,9 +111,27 @@ class World {
                   //this.level.bottles.push(bottle);
                 }, 5000);
             }
-           // this.collectedBottles++;
-          //  this.statusBarBottle.setPercentage(this.collectedBottles);
+           this.collectedBottles++;
+            this.salsaStatusBar.setPercentage(this.collectedBottles);
+        
+    }
+    
+   /* throwCounter(){
+        if(this.collectedBottles > 0  && this.keyboard.SPACE){
+            this.collectBottle--;
+            this.salsaStatusBar.setPercentage(this.collectedBottles);
         }
+    }
+        */  
+
+    checkThrowObjects() {
+        if (this.keyboard.SPACE && this.collectedBottles > 0) {
+            let bottle = new ThrowableObject(this.character.x + 70, this.character.y + 130);
+            this.throwableObjects.push(bottle);
+            this.collectedBottles--;
+            this.salsaStatusBar.setPercentage(this.collectedBottles);
+        }
+    }
      collectCoins(coin){
         let i = this.level.coins.indexOf(coin);
         this.level.coins.splice(i, 1);
@@ -129,6 +149,7 @@ class World {
         this.ctx.translate(-this.camera_x, 0);
         //----- Space for fixed Objects-------
         this.addToMap(this.statusBar);
+        this.addToMap(this.salsaStatusBar);
         this.ctx.translate(this.camera_x, 0);
 
         this.addToMap(this.character);

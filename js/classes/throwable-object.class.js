@@ -20,8 +20,8 @@ class ThrowableObject extends MovableObject {
         this.throw();
     }
 
-    throw() {
-       
+    throw(collectedBottles) {
+        this.collectedBottles = collectedBottles;
         this.speedY = 30;
         //this.speedX = 20;
         this.applyGravity();
@@ -31,7 +31,7 @@ class ThrowableObject extends MovableObject {
         
             
         }, 25);
-      
+        this.collectedBottles -- ;
     }
 
 
