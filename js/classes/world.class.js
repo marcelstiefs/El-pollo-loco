@@ -61,7 +61,7 @@ class World {
             if (this.character.isColliding(coin)) {
 
                 //this.character.hit();
-                this.statusBar.setPercentage(this.character.energy);
+               // this.statusBar.setPercentage(this.character.energy);
                 console.log(coin);
                 this.collectCoins(coin);
             }
@@ -135,6 +135,10 @@ class World {
      collectCoins(coin){
         let i = this.level.coins.indexOf(coin);
         this.level.coins.splice(i, 1);
+         this.collectedCoins++;
+         this.statusBar.addcoin(this.collectedCoins);
+         this.collectedCoins = 0
+        // this.statusBar.setPercentage(percentage);
      }
 
 

@@ -20,6 +20,8 @@ class HealthStatusbar extends DrawableObjekt{
     percentage = 100;
 
     constructor() {
+        
+    
         super();
         this.x = 30;
         this.y = 0;
@@ -32,11 +34,22 @@ class HealthStatusbar extends DrawableObjekt{
     }
 
     setPercentage(percentage) {
+       
         this.percentage = percentage
         let path = this.IMAGES_HEALTH_BAR[this.resolveImageIndex()]
         this.img = this.imageCache[path]
     }
 
+    addcoin(collectedCoins){
+        this.collectedCoins = collectedCoins * 21;
+        if (this.collectedCoins > -1 ){
+           let percentagePlusCoin = this.collectedCoins + this.percentage
+            this.setPercentage(percentagePlusCoin);
+            this.collectedCoins = 0;
+        }
+
+    }
+    /*
     resolveImageIndex() {
         if (this.percentage == 100) {
             return 5;
@@ -53,5 +66,21 @@ class HealthStatusbar extends DrawableObjekt{
             return 0;
         }
     }
+*/
 
+    resolveImageIndex() {
+        if (this.percentage == 0) {
+            return 0;
+        } else if (this.percentage > 0 && this.percentage <= 20) {
+            return 1;
+        } else if (this.percentage > 20 && this.percentage <= 40) {
+            return 2;
+        } else if (this.percentage > 40 && this.percentage <= 60) {
+            return 3;
+        } else if (this.percentage > 60 && this.percentage <= 80) {
+            return 4;
+        } else {
+            return 5;
+        }
+    }
 }
