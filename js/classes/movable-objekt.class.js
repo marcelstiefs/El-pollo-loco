@@ -35,6 +35,17 @@ class MovableObject extends DrawableObjekt {
             
     }
 
+    isCollidingWithBottle(obj) {
+        console.log(this.x + 'bottle', obj.x + 'enemy');
+
+
+        return this.x + this.width + 10 > obj.x && // was tut es
+            this.y + this.height > obj.y &&
+            this.x < obj.x &&
+            this.y < obj.y + obj.height + 100
+    }
+
+
  /*   isCollidingCoin(obj) {
         return (this.X + this.width) >= obj.X && this.X <= (obj.X + obj.width) &&
             (this.Y + this.offsetY + this.height) >= obj.Y &&
@@ -60,14 +71,28 @@ class MovableObject extends DrawableObjekt {
             this.lastHit = new Date().getTime();
         }
     }
-
+    hurtEndboss(endboss) {
+        // Hier kannst du die Logik für die Verletzung des Endbosses einfügen
+        endboss.health -= 20;  // Beispiel: Endboss verliert 20 Gesundheitspunkte
+        if (endboss.health <= 0) {
+            endboss.die();  // Endboss stirbt, wenn Gesundheit <= 0 ist
+        } else {
+            endboss.lastHit = new Date().getTime();  // Zeit des letzten Treffers setzen
+        }
+        return true;
+    }
      
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit; //Difference in ms
         timepassed = timepassed / 1000; //Difference in s
         return timepassed < 1;
     }
-
+    /*isHurtEndboss() {
+        // endbosshits + 1;
+        let timepassed = new Date().getTime() - this.lastHit; //Difference in ms
+        timepassed = timepassed / 1000; //Difference in s
+        return timepassed < 1;
+    }*/
 
     isDead() {
         return this.energy == 0;

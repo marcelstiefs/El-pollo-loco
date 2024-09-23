@@ -5,6 +5,7 @@ class Level {
     clouds;
     backgroundObjects;
     level_end_x = 2200;
+  //  throwableObjects = [];
 
 
     constructor(enemies, coins, bottles, clouds, backgroundObjects){
