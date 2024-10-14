@@ -13,8 +13,10 @@ class World {
     collectedCoins = 0;
     throwableObject = new ThrowableObject();
     bottle;
-    endbosshits = 0;
-    endboss = new Endboss;//this.level.enemies[5];
+    endbosshit= 0;
+    //endboss = new Endboss;//this.level.enemies[5];
+    hashit = false;
+    endbossKilled = false;
 
 
     constructor(canvas, keyboard) {
@@ -100,43 +102,49 @@ class World {
                     this.hitEnemyFromAbove(enemy);
                 }
                 // Kollision mit Endboss überprüfen
-                if (enemy instanceof Endboss && bottle.isColliding(enemy)) {
+                if (enemy instanceof Endboss && bottle.isColliding(enemy) && !bottle.hashit) {
                     console.log("Kollision Endboss");
                     // Verletzung des Endbosses
-                    this.endboss.hurtEndboss(enemy);  // Hier den Endboss verletzen
+                    enemy.hurtEndboss(enemy);  // Hier den Endboss verletzen
+                    this.endbosshit ++;
+                    console.log(this.endbosshit)
+                    bottle.hashit = true;
+                }
+                if (this.endbosshit == 4){
+                    this.endbossKilled = true;
                 }
             });
         });
     }
-/*
-    checkCollisionsBottle() {
-        
-        this.throwableObjects.forEach((bottle) => {
-            this.level.enemies.forEach((enemy) => {
-                // Überprüft, ob die Flasche (bottle) den Feind (enemy) trifft
-                if ((enemy instanceof Chicken || enemy instanceof SmallChicken) && bottle.isColliding(enemy)) {
-                    console.log("Kollision")
-                    this.hitEnemyFromAbove(enemy);
-                }
-                if (enemy instanceof Endboss && bottle.isColliding(enemy)) {
-                 //   endboss = this.level.enemies[5];
-                    console.log("Kollision Endboss")
-                   // this.level.enemies.isHurtEndboss();
-                  // this.hurtEndboss(enemy);
-                  this.endboss.hit();
-                }
+    /*
+        checkCollisionsBottle() {
+            
+            this.throwableObjects.forEach((bottle) => {
+                this.level.enemies.forEach((enemy) => {
+                    // Überprüft, ob die Flasche (bottle) den Feind (enemy) trifft
+                    if ((enemy instanceof Chicken || enemy instanceof SmallChicken) && bottle.isColliding(enemy)) {
+                        console.log("Kollision")
+                        this.hitEnemyFromAbove(enemy);
+                    }
+                    if (enemy instanceof Endboss && bottle.isColliding(enemy)) {
+                     //   endboss = this.level.enemies[5];
+                        console.log("Kollision Endboss")
+                       // this.level.enemies.isHurtEndboss();
+                      // this.hurtEndboss(enemy);
+                      this.endboss.hit();
+                    }
+                });
             });
-        });
-    }
-    
-        hitEnemyFromAbove(enemy) {
-            enemy.loadImage(enemy.IMAGE_DEAD);
-            let index = this.level.enemies.indexOf(enemy);
-    
-            this.level.enemies.splice(index, 1);
         }
-       
-            */
+        
+            hitEnemyFromAbove(enemy) {
+                enemy.loadImage(enemy.IMAGE_DEAD);
+                let index = this.level.enemies.indexOf(enemy);
+        
+                this.level.enemies.splice(index, 1);
+            }
+           
+                */
 
 
 
@@ -154,16 +162,16 @@ class World {
 
 
 
-/*
-
-    isHurtEndboss() {
-       // endbosshits + 1;
-        let timepassed = new Date().getTime() - this.lastHit; //Difference in ms
-        timepassed = timepassed / 1000; //Difference in s
-        return timepassed < 1;
-    }
-*/
+    /*
     
+        isHurtEndboss() {
+           // endbosshits + 1;
+            let timepassed = new Date().getTime() - this.lastHit; //Difference in ms
+            timepassed = timepassed / 1000; //Difference in s
+            return timepassed < 1;
+        }
+    */
+
 
 
 

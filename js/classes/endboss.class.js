@@ -52,17 +52,17 @@ class Endboss extends MovableObject {
             this.playAnimation(this.IMAGES_WALKING);
         }, 150);
     }
-    */
+    
 
 
     animate() {
         setInterval(() => {
             // Überprüfen, ob der Endboss tot ist
-            if (this.isDead()) {
+            if (this.endbossIsDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
             }
             // Überprüfen, ob der Endboss verletzt ist
-            else if (this.isHurt()) {
+            else if (this.isHurt() && !this.endbossdead) {
                 this.playAnimation(this.IMAGES_HURT);
             }
             else {
@@ -70,4 +70,25 @@ class Endboss extends MovableObject {
             }
         }, 150);
     }
-}
+}*/
+
+
+    animate() {
+        setInterval(() => {
+            // Überprüfen, ob der Endboss tot ist
+            if (this.endbossIsDead()) {
+                console.log("Animation: Endboss tot");
+                this.playAnimation(this.IMAGES_DEAD);  // Spielt nur die Tot-Animation
+            }
+            // Überprüfen, ob der Endboss verletzt ist, aber noch lebt
+            else if (this.isHurt() && !this.endbossIsDead()) {
+                console.log("Animation: Endboss verletzt");
+                this.playAnimation(this.IMAGES_HURT);  // Spielt die Verletzungsanimation
+            }
+            // Wenn der Endboss nicht tot oder verletzt ist, normale Animation
+            else if (!this.endbossIsDead()){
+                console.log("Animation: Endboss läuft");
+                this.playAnimation(this.IMAGES_WALKING);  // Spielt die Laufanimation
+            }
+        }, 150);
+    } }
