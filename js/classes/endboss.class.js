@@ -3,8 +3,21 @@ class Endboss extends MovableObject {
     height = 400;
     width = 300;
     y = 60;
+    isPlayingDeadAnimation = false;
 
-    IMAGES_WALKING = [
+    offset = {
+        top: 130,
+        left: 40,
+        right: 20,
+        bottom: 0
+    };
+IMAGES_WALKING = [
+    "img/4_enemie_boss_chicken/1_walk/G1.png",
+    "img/4_enemie_boss_chicken/1_walk/G2.png",
+    "img/4_enemie_boss_chicken/1_walk/G3.png",
+    "img/4_enemie_boss_chicken/1_walk/G4.png",
+];
+    IMAGES_ALERT = [
         "img/4_enemie_boss_chicken/2_alert/G5.png",
         "img/4_enemie_boss_chicken/2_alert/G6.png",
         "img/4_enemie_boss_chicken/2_alert/G7.png",
@@ -26,10 +39,12 @@ class Endboss extends MovableObject {
         "img/4_enemie_boss_chicken/5_dead/G25.png",
         "img/4_enemie_boss_chicken/5_dead/G26.png",
     ];
-
+    winPic = "img/9_intro_outro_screens/win/win_2.png";
+    lostPic = "img/9_intro_outro_screens/game_over/oh no you lost!.png";
 
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);
+        this.loadImage(this.winPic);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
@@ -73,22 +88,58 @@ class Endboss extends MovableObject {
 }*/
 
 
-    animate() {
+    animate(){
+        setInterval(() => {
+            this.moveLeft();
+
+        }, 1000 / 60);
+     
         setInterval(() => {
             // Überprüfen, ob der Endboss tot ist
             if (this.endbossIsDead()) {
-                console.log("Animation: Endboss tot");
-                this.playAnimation(this.IMAGES_DEAD);  // Spielt nur die Tot-Animation
+                if (!this.isPlayingDeadAnimation) {
+                    this.isPlayingDeadAnimation = true;  // Todesanimation starten
+                    this.playDeadAnimationOneTime();       // Todesanimation abspielen
+                }
+              //  this.playAnimation(this.IMAGES_DEAD);  // Spielt nur die Tot-Animation
+                //this.endScreen();
+                //this.loadImage(this.winPic);
             }
             // Überprüfen, ob der Endboss verletzt ist, aber noch lebt
             else if (this.isHurt() && !this.endbossIsDead()) {
-                console.log("Animation: Endboss verletzt");
+                
                 this.playAnimation(this.IMAGES_HURT);  // Spielt die Verletzungsanimation
             }
             // Wenn der Endboss nicht tot oder verletzt ist, normale Animation
             else if (!this.endbossIsDead()){
-                console.log("Animation: Endboss läuft");
+               
                 this.playAnimation(this.IMAGES_WALKING);  // Spielt die Laufanimation
             }
         }, 150);
-    } }
+    }
+
+
+    playDeadAnimationOneTime() {
+
+        let currentImageIndex = 0;
+        const interval = setInterval(() => {
+            if (currentImageIndex < this.IMAGES_DEAD.length) {
+                this.loadImage(this.IMAGES_DEAD[currentImageIndex]);
+                currentImageIndex++;
+            } else {
+                clearInterval(interval);
+                this.characterIsDead = false;
+                //this.isPlayingDeadAnimation = false;  // Flag zurücksetzen
+            }
+        }, 200);
+        //this.endScreenLose();
+       // this.endScreenWin();
+    }
+
+
+
+
+
+
+
+}

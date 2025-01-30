@@ -16,6 +16,7 @@
    
   <!--  <script src="js/classes/statusbar.class.js"></script>-->
      <script src="js/classes/salsa-statusbar.class.js"></script>
+     <script src="js/classes/sounds-class.js"></script>
      <script src="js/classes/health-statusbar.class.js"></script>
     <script src="js/classes/movable-objekt.class.js"></script> 
     <script src="js/classes/character.class.js"></script>
@@ -35,7 +36,30 @@
 </head>
 
 <body onload="init()">
+    <div class="background">
     <H1>El pollo loco</H1>
-    <canvas id="canvas" width="720px" height="480px"></canvas>
+    <div id="startMenu" class="startMenu">
+    <div onclick="startGame()" class ="startbtn">Start Game</div>
+</div>
 
+   <div id="canvasAndIcons" class="d-none">
+    
+    <canvas id="canvas" class="d-none"  width="720px" height="480px"> </canvas>
+      
+   
+   <div id="mobileIcons" class="mobileIcons">
+    <div class="leftIcons">
+        <button id="btnLeft"><img src="img/left-arrow.png"></button>
+        <button id="btnRight"><img src="img/right-arrow.png"></button>
+    </div>
+    <div class="rightIcons">
+        <button id="btnThrow"><img src="img/throw_icon.png"></button>
+        <button id="btnJump"><img src="img/arrows-Top.png"></button>
+    </div>
+</div>
+</div>
+<div id="soundIcon" class="soundIcon" onclick="soundMute()"><img id="soundOn" src="img/icons8-hohe-lautstärke-50.png"><img id="soundOff" class="d-none" src="img/icons8-stumm-50.png"></div>
+    <div  class="endscreen d-none" id ="endscreenWin"><img src="img/9_intro_outro_screens/win/win_2.png" alt=""> <div onclick="backToMenu()" class="startbtn">backToMenu</div></div>
+     <div  class="endscreen d-none" id ="endscreenLose"><img src="img/9_intro_outro_screens/game_over/game over.png"alt=""><div onclick="backToMenu()" class="startbtn">backToMenu</div></div>
+</div>
 </body>

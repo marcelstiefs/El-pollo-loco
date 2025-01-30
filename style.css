@@ -5,17 +5,33 @@
 
 
 body{
-    display: flex;
+  
+    font-family:'viva',
+        Arial,
+        Helvetica,
+        sans-serif;
+    
+}
+.background{
+    position: fixed;
+    top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+display: flex;
     align-items: center;
     flex-direction: column;
     justify-content: center;
-    background-image: url(img/desertBodyBackground.jpg);
-    background-position: center;
-    font-family:'viva',Arial, Helvetica, sans-serif;
+    background-image: url(img/ai\ background\ el\ pollo\ loco.jpeg);
+    background-repeat: no-repeat;
+    background-size: cover;
     
+    height: 100%;
+   
 }
  
 h1{
+    font-family: 'viva';
     font-size: 30px;
         font-weight: light;
         letter-spacing: 3px;
@@ -25,3 +41,82 @@ h1{
 canvas{
     background-color: black;
 }
+ 
+.startMenu{
+    width: 720px;
+        height: 480px;
+    
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        background-image: url(img/9_intro_outro_screens/start/startscreen_1.png);
+        background-size: contain;
+        background-repeat: no-repeat;
+}
+.startbtn{
+    padding: 10px;
+    margin-top: 30px;
+    cursor: pointer;
+    background-color: rgb(255, 220, 3);
+    background: rgb(255, 160, 0);
+        background: radial-gradient(circle, rgba(255, 160, 0, 1) 0%, rgba(255, 220, 3, 1) 100%);
+    -webkit-box-shadow: 2px 2px 2px 2px rgb(140, 52, 21); 
+    box-shadow: 5px 5px 0px 0px rgb(140, 52, 21);
+    font-size: 24px;
+    border-radius: 2px;
+
+
+}
+.startMenu img{
+width:720px;
+height:480px;
+
+display: flex;
+justify-content: center;
+align-items: center;
+background-image: url(img/9_intro_outro_screens/start/startscreen_1.png);
+}
+
+.endscreen{
+
+width:200px;
+ height:480px;
+ 
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ flex-direction: column;
+
+}
+.endscreen img{
+    width: 720px;
+        height: 480px
+}
+.d-none{
+    display: none !important;
+}
+.mobileIcons{
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: space-between;
+    width: 720px;
+    position: fixed;
+    bottom: 80px;
+    
+}
+.mobileIcons img{
+    height: 32px;
+    width: 32px;
+    margin-left: 20px;
+    margin-right: 20px;
+  cursor: pointer;
+opacity: 1;
+}
+ .mobileIcons button {
+    background-color: gray;
+    opacity: 0.5;
+    border: solid 1px;
+
+ }

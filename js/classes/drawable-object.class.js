@@ -19,6 +19,8 @@ class DrawableObjekt{
 
         });
     }
+
+    
     draw(ctx) {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
@@ -27,11 +29,35 @@ class DrawableObjekt{
 drawFrame(ctx) {
     if (this instanceof Character || this instanceof Chicken || this instanceof SmallChicken || this instanceof Endboss || this instanceof Coins || this instanceof Salsa || this instanceof ThrowableObject ) {
         ctx.beginPath();
-        ctx.lineWidth = '2';
+        ctx.lineWidth = '1';
         ctx.strokeStyle = 'blue';
         ctx.rect(this.x, this.y, this.width, this.height);
         ctx.stroke();
+// red with offset
+
+        ctx.beginPath();
+        ctx.lineWidth = '2';
+        ctx.strokeStyle = 'red';
+        ctx.rect(this.x + this.offset.left, this.y + this.offset.top, (this.x + this.width - this.offset.right) - (this.x + this.offset.left), (this.y + this.height - this.offset.bottom) - (this.y + this.offset.top));
+        ctx.stroke();
+
     }
 }
 
-}
+/*
+
+    draw(ctx) {
+        ctx.drawImage(this.img, this.x, this.y, this.width + this.offsetWidth, this.height + this.offsetHeight);
+    }
+
+    drawFrame(ctx) {
+        if (this instanceof Character || this instanceof Chicken || this instanceof SmallChicken || this instanceof Endboss || this instanceof Coins || this instanceof Salsa || this instanceof ThrowableObject) {
+            ctx.beginPath();
+            ctx.lineWidth = '2';
+            ctx.strokeStyle = 'blue';
+            // Anwendung der Offsets auf die Breite und Höhe
+            ctx.rect(this.x, this.y, this.width + this.offsetWidth, this.height + this.offsetHeight);
+            ctx.stroke();
+        }
+    }
+*/}

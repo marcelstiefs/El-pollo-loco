@@ -20,15 +20,30 @@ class MovableObject extends DrawableObjekt {
         }, 1000 / 25);
     }
 
-    isAboveGround() {
-        if (this instanceof ThrowableObject) {
-            return true;
+    isAboveGround() { 
+        if (this instanceof ThrowableObject ) {
+            console.log("bottle",this.y)
+            return this.y < 390;
+            //return true;
         } else {
             return this.y < 128;
         }
     }
 
 
+
+/*
+    isAboveGround() {
+       
+            return this.y < 128;
+        
+    } 
+
+    isAboveGroundBottle() {
+
+        return this.y < 2000;
+
+    }
 
 
     isColliding(mo) {
@@ -39,18 +54,44 @@ class MovableObject extends DrawableObjekt {
 
     }
 
+
+
     isCollidingWithBottle(obj) {
         console.log(this.x + 'bottle', obj.x + 'enemy');
 
 
-        return this.x + this.width + 10 > obj.x && // was tut es
+        return this.x + this.width + 10 > obj.x && 
             this.y + this.height > obj.y &&
             this.x < obj.x &&
             this.y < obj.y + obj.height + 100
     }
+    */
 
+    isCollidingWithBottle(obj) {
+        console.log(this.x + 'bottle', obj.x + 'enemy');
 
-    /*   isCollidingCoin(obj) {
+        return this.x + this.width - this.offset.right > obj.x + obj.offset.left &&
+            this.y + this.height - this.offset.bottom > obj.y + obj.offset.top &&
+            this.x + this.offset.left < obj.x + obj.width - obj.offset.right &&
+            this.y + this.offset.top < obj.y + obj.height - obj.offset.bottom;
+    }
+
+    isColliding(mo) {
+        return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
+            this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
+            this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
+            this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
+    }
+    
+    /*
+    isColliding(mo) {
+        return (this.x) + (this.width + this.offsetWidth) > (mo.x) &&
+            (this.y) + (this.height + this.offsetHeight) > (mo.y) &&
+            (this.x) < (mo.x + mo.width + mo.offsetWidth) &&
+            (this.y) < (mo.y + mo.height + mo.offsetHeight);
+    }
+
+      isCollidingCoin(obj) {
            return (this.X + this.width) >= obj.X && this.X <= (obj.X + obj.width) &&
                (this.Y + this.offsetY + this.height) >= obj.Y &&
                (this.Y + this.offsetY) <= (obj.Y + obj.height)
@@ -68,7 +109,7 @@ class MovableObject extends DrawableObjekt {
 
     hit() {
 
-        this.energy -= 2;
+        this.energy -= 0.5;
         if (this.energy < 0) {
             this.energy = 0;
         } else {
@@ -132,7 +173,9 @@ class MovableObject extends DrawableObjekt {
     }}
 */
     isDead() {
-        return this.energy == 0;
+       // this.approachtodead();
+       // this.endScreenLose();
+         return this.energy == 0;
     }
 
 /*
@@ -189,5 +232,27 @@ class MovableObject extends DrawableObjekt {
     jump() {
         this.speedY = 30;
     }
+
+
+
+    endScreenLose() {
+       let canvas = document.getElementById('canvas');
+        let losescreen = document.getElementById('endscreenLose');
+        let mobileIcons = document.getElementById('mobileIcons');
+        if(this.isDead()){
+            this.endscreenfail = true;
+        }
+
+        if (this.endscreenfail) {
+            setTimeout(() => {
+                 mobileIcons.classList.add('d-none');
+               canvas.classList.add('d-none');
+                losescreen.classList.remove('d-none');
+               
+               // this.world = null;
+            }, 1500);
+        }
+    }
+
 
 }
