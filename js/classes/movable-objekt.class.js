@@ -10,6 +10,7 @@ class MovableObject extends DrawableObjekt {
     hashit = false;
     endbossdead = false;
     endbossEnergy = 100;
+    soundsilence = false;
 
     applyGravity() {
         setInterval(() => {
@@ -22,7 +23,7 @@ class MovableObject extends DrawableObjekt {
 
     isAboveGround() { 
         if (this instanceof ThrowableObject ) {
-            console.log("bottle",this.y)
+           
             return this.y < 390;
             //return true;
         } else {
@@ -68,7 +69,7 @@ class MovableObject extends DrawableObjekt {
     */
 
     isCollidingWithBottle(obj) {
-        console.log(this.x + 'bottle', obj.x + 'enemy');
+        
 
         return this.x + this.width - this.offset.right > obj.x + obj.offset.left &&
             this.y + this.height - this.offset.bottom > obj.y + obj.offset.top &&
@@ -142,13 +143,13 @@ class MovableObject extends DrawableObjekt {
 
         // Endboss verliert 25 Gesundheitspunkte
         this.endbossEnergy -= 25;
-        console.log("Endboss Energie: " + this.endbossEnergy);
+    
 
         // Überprüfen, ob der Endboss tot ist
         if (this.endbossEnergy < 0 ) {  // Prüfen, ob Energie <= 0 und ob der Endboss noch lebt
             this.endbossEnergy = 0;       // Setze Energie auf 0, falls sie negativ wurde
             this.endbossdead = true;      // Setze den Status auf tot
-            console.log('Endboss ist tot');  // Debug-Ausgabe
+           
         }
 
         // Setzt die Zeit des letzten Treffers, falls der Endboss noch lebt
@@ -236,6 +237,8 @@ class MovableObject extends DrawableObjekt {
 
 
     endScreenLose() {
+        //let startbtn = document.getElementById("startbtn");
+        let navbar = document.getElementById('navbar');
        let canvas = document.getElementById('canvas');
         let losescreen = document.getElementById('endscreenLose');
         let mobileIcons = document.getElementById('mobileIcons');
@@ -248,11 +251,33 @@ class MovableObject extends DrawableObjekt {
                  mobileIcons.classList.add('d-none');
                canvas.classList.add('d-none');
                 losescreen.classList.remove('d-none');
-               
+                navbar.classList.add('d-none');
+              //  startbtn.classList.remove('d-none');
                // this.world = null;
             }, 1500);
         }
+        gameIsRunning = false;
     }
 
+/*
+    soundMute(){
 
+     
+        let soundOn = document.getElementById('soundOn');
+        let soundOff = document.getElementById('soundOff');
+
+if (this.soundsilence){
+    soundOn.classList.remove('d-none');
+    soundOff.classList.add('d-none');
+    this.soundsilence = false;
 }
+if (!this.soundsilence){
+    soundOn.classList.add('d-none');
+    soundOff.classList.remove('d-none');
+    this.soundsilence = true;
+}
+    }
+}
+document.getElementById('soundIcon').addEventListener('click', function () {
+    movableObjectInstance.soundMute();
+}); */}

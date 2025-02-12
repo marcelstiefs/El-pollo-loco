@@ -12,13 +12,13 @@
 
     <script src="js/classes/pickable-objekt.class.js"></script>
     <script src="js/classes/salsa.class.js"></script>
-   <script src="js/classes/coins.class.js"></script> 
-   
-  <!--  <script src="js/classes/statusbar.class.js"></script>-->
-     <script src="js/classes/salsa-statusbar.class.js"></script>
-     <script src="js/classes/sounds-class.js"></script>
-     <script src="js/classes/health-statusbar.class.js"></script>
-    <script src="js/classes/movable-objekt.class.js"></script> 
+    <script src="js/classes/coins.class.js"></script>
+
+    <!--  <script src="js/classes/statusbar.class.js"></script>-->
+    <script src="js/classes/salsa-statusbar.class.js"></script>
+    <script src="js/classes/sounds-class.js"></script>
+    <script src="js/classes/health-statusbar.class.js"></script>
+    <script src="js/classes/movable-objekt.class.js"></script>
     <script src="js/classes/character.class.js"></script>
     <script src="js/classes/chicken.class.js"></script>
     <script src="js/classes/small.chicken.class.js"></script>
@@ -30,36 +30,68 @@
     <script src="js/classes/throwable-object.class.js"></script>
     <script src="js/classes/endboss.class.js"></script>
     <script src="levels/level1.js"></script>
-    <script src="js/game.js"></script>
+    <script src="js/game.js" defer></script>
 
 
 </head>
 
 <body onload="init()">
     <div class="background">
-    <H1>El pollo loco</H1>
-    <div id="startMenu" class="startMenu">
-    <div onclick="startGame()" class ="startbtn">Start Game</div>
-</div>
+        <!--   <H1>El pollo loco</H1>-->
+        <div id="gameScreen" class="gameScreen">
+            <div class="navbar" id="navbar">
+                <div id="soundIcon" class="soundIcon" onclick="soundMute()">
+                    <img id="soundOn" class="d-none" src="img/icons8-hohe-lautstärke-50.png">
+                    <img id="soundOff" src="img/icons8-stumm-50.png">
+                </div>
+                <div id="screenIcon" class="screenIcon">
+                    <img id="fullscreenIcon" src="img/full-screen.png" onclick="openFullscreen()">
+                    <img id="notFullscreenIcon" class="d-none" src="img/not-screen.png" onclick="closeFullscreen()">
+                </div>
+                <div onclick="legalPopUp()" id="legal" class="legal"><img src="img/vereinbarung.png"></div>
+                <div id="closeGame" class="d-none" onclick="world.closeGame()"><img src="img/close.png" alt="">
+                    
+                </div>
+            </div>
+            <div id="startMenu" class="startMenu">
 
-   <div id="canvasAndIcons" class="d-none">
-    
-    <canvas id="canvas" class="d-none"  width="720px" height="480px"> </canvas>
-      
-   
-   <div id="mobileIcons" class="mobileIcons">
-    <div class="leftIcons">
-        <button id="btnLeft"><img src="img/left-arrow.png"></button>
-        <button id="btnRight"><img src="img/right-arrow.png"></button>
+                <div onclick="startGame()" class="startbtn">Start Game</div>
+            </div>
+
+            <div id="canvasAndIcons" class="d-none">
+
+                <canvas id="canvas" class="canvas d-none" width="720px" height="480px"> </canvas>
+
+                <div class="endscreen d-none" id="endscreenWin"><img src="img/9_intro_outro_screens/win/win_2.png"
+                        alt="">
+                    <div onclick="backToMenu()" id="backToMenuBtn" class="backtomenu">back to Menu</div>
+                </div>
+                <div class="endscreen d-none" id="endscreenLose"><img
+                        src="img/9_intro_outro_screens/game_over/game over.png" alt="">
+                    <div onclick="backToMenu()" id="backToMenuBtn" class="backtomenu">back to Menu</div>
+
+                </div>
+
+
+            </div>
+            <div id="mobileIcons" class="mobileIcons d-none">
+                <div class="leftIcons">
+                    <button id="btnLeft"><img src="img/left-arrow.png"></button>
+                    <button id="btnRight"><img src="img/right-arrow.png"></button>
+                </div>
+                <div class="rightIcons">
+                    <button id="btnThrow"><img src="img/throw_icon.png"></button>
+                    <button id="btnJump"><img src="img/arrows-Top.png"></button>
+                </div>
+            </div>
+            <div class="mobileOverlay"><span>please turn your device</span>
+                <img src="img/rotate.png" alt="">
+            </div>
+            <div id="legalOverlay" class="legalOverlay d-none" >
+                <img src="img/close.png"onclick="closeLegalOverlay()" alt="">
+                <div class="legalText" id="legalText"></div>
+
+            </div>
+        </div>
     </div>
-    <div class="rightIcons">
-        <button id="btnThrow"><img src="img/throw_icon.png"></button>
-        <button id="btnJump"><img src="img/arrows-Top.png"></button>
-    </div>
-</div>
-</div>
-<div id="soundIcon" class="soundIcon" onclick="soundMute()"><img id="soundOn" src="img/icons8-hohe-lautstärke-50.png"><img id="soundOff" class="d-none" src="img/icons8-stumm-50.png"></div>
-    <div  class="endscreen d-none" id ="endscreenWin"><img src="img/9_intro_outro_screens/win/win_2.png" alt=""> <div onclick="backToMenu()" class="startbtn">backToMenu</div></div>
-     <div  class="endscreen d-none" id ="endscreenLose"><img src="img/9_intro_outro_screens/game_over/game over.png"alt=""><div onclick="backToMenu()" class="startbtn">backToMenu</div></div>
-</div>
 </body>

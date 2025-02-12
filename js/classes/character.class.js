@@ -5,11 +5,14 @@ class Character extends MovableObject {
    chill = false;
    idleTimeout;
   ouchPlayed = false; 
-    soundsEnabled = false;
+   
     jumpAnimate = false;
     characterIsDead = false
     isPlayingDeadAnimation = false;
+    activeIntervals;
+    soundsEnabled = false; 
  // keyPressed = false;
+ 
 
     offset = {
         top: 120,
@@ -83,13 +86,21 @@ IMAGES_LONG_IDELE = [
     ];
 
     world;
+  /*
     walking_sound = new Audio('sounds/walking.mp3');
     snorring_sound = new Audio('sounds/snorring_sound.mp3');
     ouch_sound = new Audio('sounds/ouch_sound.mp3');
     jumping_sound = new Audio('sounds/jump.mp3');
- 
+ */
     sounds;
 
+    allsounds = {
+        walking_sound: new Audio('sounds/walking.mp3'),
+        snorring_sound: new Audio('sounds/snorring_sound.mp3'),
+        ouch_sound: new Audio('sounds/ouch_sound.mp3'),
+        jumping_sound: new Audio('sounds/jump.mp3'),
+        death_sound: new Audio('sounds/pain_sound.mp3')
+    };
     constructor() {
 
         super().loadImage('img/2_character_pepe/1_idle/idle/I-1.png');
@@ -101,149 +112,147 @@ IMAGES_LONG_IDELE = [
         this.loadImages(this.IMAGES_LONG_IDELE);
 
         this.applyGravity();
+        this.activeIntervals = [];
         this.animate();
        // this.disableAllSounds();
         //this.idleCountDown();
     }
-
+    
+    
     animate() {
-        setInterval(() => {
-            this.walking_sound.pause();
-           
-            this.jumping_sound.pause();
-           
+        this.activeIntervals.push(setInterval(() => {
+            this.allsounds.walking_sound.pause();
+            this.allsounds.jumping_sound.pause();
+
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-                //this.x += this.speed;
                 this.moveRight();
                 this.otherDirection = false;
-                if (!this.isAboveGround()){
-                this.walking_sound.play();}
+                if (!this.isAboveGround() && notMute) {
+                    this.allsounds.walking_sound.play();
+                }
             }
+
             if (this.world.keyboard.LEFT && this.x > -400) {
                 this.moveLeft();
                 this.otherDirection = true;
-
-                if (!this.isAboveGround()) {
-                    this.walking_sound.play();
+                if (!this.isAboveGround() && notMute) {
+                    this.allsounds.walking_sound.play();
                 }
-
             }
 
             if (this.world.keyboard.UP && !this.isAboveGround()) {
                 this.jump();
-                
-                //this.speedY = 30;
-            }
-            if (this.isAboveGround()){
-                this.jumping_sound.play();}
-
-            this.world.camera_x = -this.x + 100
-        }, 1000 / 60);
-
-
-
-
-        setInterval(() => {
-            this.firstKeyPress();  // Überprüft, ob Sounds freigegeben werden sollen
-            this.snorring_sound.pause();
-            if (!this.soundsEnabled) {
-                // Alle Sounds pausieren, wenn die Freigabe noch nicht erfolgt ist
-                this.snorring_sound.pause();
-                this.ouch_sound.pause();
-                return;  // Den Rest der Schleife überspringen, wenn Sounds deaktiviert sind
             }
 
-            // Spielcode, wenn die Sounds aktiviert sind
+            if (this.isAboveGround() && notMute) {
+                this.allsounds.jumping_sound.play();
+            }
+
+            this.world.camera_x = -this.x + 100;
+        }, 1000 / 60));
+
+        this.activeIntervals.push(setInterval(() => {
+            this.firstKeyPress();
+            this.allsounds.snorring_sound.pause();
+
+            if (!this.soundsEnabled) return; // Falls Sound aus ist, beende die Funktion direkt!
+
             if (this.idleCountDown() && !this.isHurt() && !this.isDead()) {
                 this.playAnimation(this.IMAGES_LONG_IDELE);
-                if (this.soundsEnabled) {
-                    this.snorring_sound.play();
-                }
-            //else if(this.energy = 0){
-               // approachtodead();
-            
-        } else if (this.isDead()) {
+                if(notMute) {                    
+                this.allsounds.snorring_sound.play();
+            }
+            } else if (this.isDead()) {
                 if (!this.isPlayingDeadAnimation) {
-                    this.isPlayingDeadAnimation = true;  // Todesanimation starten
-                    this.playDeadAnimationOneTime();       // Todesanimation abspielen
+                    this.isPlayingDeadAnimation = true;
+                    this.playDeadAnimationOneTime();
+                    if(notMute){
+                        this.allsounds.death_sound.play();
+                    }
+                }
+            } else if (this.isHurt()) {
+                this.playAnimation(this.IMAGES_HURT);
+                if (!this.ouchPlayed && notMute) {
+                    this.allsounds.ouch_sound.play();
+                    this.ouchPlayed = true;
+                }
+            } else if (!this.isAboveGround() && (this.world.keyboard.RIGHT || this.world.keyboard.LEFT)) {
+                this.playAnimation(this.IMAGES_WALKING);
+            }
+        }, 70));
+
+        this.activeIntervals.push(setInterval(() => {
+            if (this.isAboveGround() && !this.jumpAnimate) {
+                this.playAnimation(this.IMAGES_JUMPING);
+            }
+        }, 180));
+    }
+/*
+    animate() {
+        // Speichert alle Intervalle, um sie später zu löschen
+        this.activeIntervals.push(setInterval(() => {
+            this.allsounds.walking_sound.pause();
+            this.allsounds.jumping_sound.pause();
+
+            if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+                this.moveRight();
+                this.otherDirection = false;
+                if (!this.isAboveGround()) this.allsounds.walking_sound.play();
+            }
+
+            if (this.world.keyboard.LEFT && this.x > -400) {
+                this.moveLeft();
+                this.otherDirection = true;
+                if (!this.isAboveGround()) this.allsounds.walking_sound.play();
+            }
+
+            if (this.world.keyboard.UP && !this.isAboveGround()) {
+                this.jump();
+            }
+
+            if (this.isAboveGround()) this.allsounds.jumping_sound.play();
+
+            this.world.camera_x = -this.x + 100;
+        }, 1000 / 60));
+
+        this.activeIntervals.push(setInterval(() => {
+            this.firstKeyPress();
+            this.allsounds.snorring_sound.pause();
+            if (!this.soundsEnabled) return;
+
+            if (this.idleCountDown() && !this.isHurt() && !this.isDead()) {
+                this.playAnimation(this.IMAGES_LONG_IDELE);
+                this.allsounds.snorring_sound.play();
+            } else if (this.isDead()) {
+                if (!this.isPlayingDeadAnimation) {
+                    this.isPlayingDeadAnimation = true;
+                    this.playDeadAnimationOneTime();
                 }
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
                 if (!this.ouchPlayed) {
-                    this.ouch_sound.play();
-                    this.ouchPlayed = true;  // Ouch-Sound nur einmal abspielen
+                    this.allsounds.ouch_sound.play();
+                    this.allsounds.ouchPlayed = true;
                 }
-            } else/* if (this.isAboveGround() && !this.jumpAnimate) {
-                this.playAnimation(this.IMAGES_JUMPING);
-                this.jumpAnimate = true;
-                this.jumpAnimate = false;
-            } else*/ if (!this.isAboveGround() &&      this.world.keyboard.RIGHT || this.world.keyboard.LEFT ) {
+            } else if (!this.isAboveGround() && (this.world.keyboard.RIGHT || this.world.keyboard.LEFT)) {
                 this.playAnimation(this.IMAGES_WALKING);
             }
-        }, 70); 
+        }, 70));
 
-
-        setInterval(() => {
-            
-        if (this.isAboveGround() && !this.jumpAnimate) {
-            this.playAnimation(this.IMAGES_JUMPING);
-          //  this.jumpAnimate = true;
-           // this.jumpAnimate = false;
-        }
-        }, 180);}
-   
-
-/* 
-        setInterval(() => {
-            //this.snorring_sound.volume = 0;
-            this.snorring_sound.pause();
-            if (!this.isHurt()) {
-                this.ouch_sound.pause();
-                this.ouchPlayed = false
-            }
-            if (this.idleCountDown() && !this.isHurt() && !this.isDead()){
-                this.playAnimation(this.IMAGES_LONG_IDELE)
-                if (this.pressKeyDetect()){
-                this.snorring_sound.play();}
-            }
-
-             else if (this.isDead()) {
-                this.playAnimation(this.IMAGES_DEAD);
-            } else if (this.isHurt()) {
-                this.playAnimation(this.IMAGES_HURT);
-               //this.ouch_sound.play();
-            }
-            if (!this.ouchPlayed && this.isHurt() && this.pressKeyDetect()) {
-                this.ouch_sound.play();
-                this.ouchPlayed = false;  // Flag setzen, damit der Sound nicht erneut startet
-            }
-
-            else if (this.isAboveGround()) {
+        this.activeIntervals.push(setInterval(() => {
+            if (this.isAboveGround() && !this.jumpAnimate) {
                 this.playAnimation(this.IMAGES_JUMPING);
-            } else {
-
-                if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                    //walk animation
-                    this.playAnimation(this.IMAGES_WALKING);
-                }
             }
-        }, 70);
-
+        }, 180));
     }
 
-idleCountDown(){
-    if (!this.world.keyboard.RIGHT && !this.world.keyboard.LEFT && !this.world.keyboard.UP && !this.world.keyboard.SPACE ){
-        setTimeout(() => {
-           
-            this.chill = true;
-        }, 2000);
-    }else{
-        this.chill =  false;
-    }   
-
- console.log(this.chill)
-
-} */
+    * Funktion zum Stoppen aller Intervalle */
+    stopAllIntervals() {
+        this.allsounds.snorring_sound.pause();
+        this.activeIntervals.forEach(clearInterval);
+        this.activeIntervals = []; // Array leeren
+        
+    }
 
 
 
@@ -295,43 +304,36 @@ idleCountDown(){
                     //this.isPlayingDeadAnimation = false;  // Flag zurücksetzen
                 }
             }, 200);
+        this.stopAllIntervals();
         this.endScreenLose();
         }
-    
+    }
+   /* 
+    soundMute() {
+        const soundOn = document.getElementById("soundOn");
+        const soundOff = document.getElementById("soundOff");
 
-/*
-    playDeadAnimationOnce() {
-        if (this.characterIsDead){
-        let currentImageIndex = 0;
-        const interval = setInterval(() => {
-            if (currentImageIndex < this.IMAGES_DEAD.length) {
-                this.loadImage(this.IMAGES_DEAD[currentImageIndex]);
-                currentImageIndex++;
-                this.characterIsDead = false;
-            } else {
-               clearInterval(interval);
-            }
-        }, 50);
-    }
-    }
-     
-    pressKeyDetect(){
-        if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.UP || this.world.keyboard.SPACE){
-            this.keyPressed = true;
-            return this.keyPressed
+        // Toggle soundsEnabled-Status
+        this.soundsEnabled = !this.soundsEnabled;
+
+        // Alle Sounds ein- oder ausschalten
+       // for (let sound in character.allsounds) {
+         //   character.allsounds[sound].muted = !character.soundsEnabled;
+      //  }
+
+        // Icon wechseln
+        if (this.soundsEnabled) {
+            soundOn.classList.remove("d-none");
+            soundOff.classList.add("d-none");
+        } else {
+            soundOn.classList.add("d-none");
+            soundOff.classList.remove("d-none");
         }
     }
 
-  returnChill(){
-        if(this.chill){
-            return true;
-        }
-    }
-    disableAllSounds() {
-        sounds = [this.snorring_sound, this.ouch_sound, this.splash_sound]; // Alle Sounds in ein Array
-        this.sounds.forEach(sound => {
-            this.sounds.pause();      // Sound pausieren
-            
-        });
-}*/
 }
+
+
+document.getElementById('soundIcon').addEventListener('click', function () {
+    soundMute();
+});   */

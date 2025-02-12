@@ -10,6 +10,8 @@ body{
         Arial,
         Helvetica,
         sans-serif;
+        margin: 0;
+        padding: 0;
     
 }
 .background{
@@ -38,14 +40,55 @@ h1{
         text-shadow: 4px 3px 4px rgba(0,0,0,0.5);
 }
 
+    
+
 canvas{
     background-color: black;
+    display: block;
+  
+  
+  
 }
- 
+@media only screen and (max-width : 720px){
+    canvas{
+        width: 100vw;
+        display: flex;
+    }
+} 
+@media  screen and ( max-height: 480px) {
+    canvas{
+        height: 100vh;
+    }
+                 .navbar {
+                     position:fixed!important;
+                     top: -20px !important;
+                     right: 0px !important;
+                 }
+ .startMenu{
+    margin-top: 0px!important;
+       height:400px!important;
+        align-items: flex-end!important;
+ }
+}
+@media (min-width:1000px) and (min-height:500px) {
+    .mobileIcons {
+        display: none !important;
+    }
+    .screenIcon{
+        display: none!important;
+    }
+       
+}
+
+@media screen and (min-width: 500px){
+.mobileOverlay{
+    display: none!important;
+}
+}
 .startMenu{
     width: 720px;
         height: 480px;
-    
+    margin-top: 40px;
         display: flex;
         justify-content: center;
         align-items: flex-start;
@@ -55,7 +98,7 @@ canvas{
 }
 .startbtn{
     padding: 10px;
-    margin-top: 30px;
+    margin-top: 60px;
     cursor: pointer;
     background-color: rgb(255, 220, 3);
     background: rgb(255, 160, 0);
@@ -68,13 +111,17 @@ canvas{
 
 }
 .startMenu img{
+ /*;
 width:720px;
-height:480px;
+height:480px; 
+background-image: url(img/9_intro_outro_screens/start/startscreen_1.png);
+
+*/
 
 display: flex;
 justify-content: center;
 align-items: center;
-background-image: url(img/9_intro_outro_screens/start/startscreen_1.png);
+
 }
 
 .endscreen{
@@ -88,23 +135,26 @@ width:200px;
  flex-direction: column;
 
 }
+
 .endscreen img{
     width: 720px;
         height: 480px
 }
 .d-none{
-    display: none !important;
+    display: none !important ;
 }
 .mobileIcons{
-
-    display: flex;
+z-index: 999;
+    
     flex-direction: row;
     justify-content: space-between;
     align-content: space-between;
-    width: 720px;
-    position: fixed;
-    bottom: 80px;
+    align-items: flex-end;
     
+    bottom: 40px;
+    width: 100%;
+  position: relative;
+    display: flex;
 }
 .mobileIcons img{
     height: 32px;
@@ -112,11 +162,124 @@ width:200px;
     margin-left: 20px;
     margin-right: 20px;
   cursor: pointer;
-opacity: 1;
+
 }
  .mobileIcons button {
-    background-color: gray;
-    opacity: 0.5;
+    background-color: rgb(255, 255, 255);
+    opacity: 0.65;
     border: solid 1px;
 
+ }
+.backtomenu{
+  padding: 10px;
+  margin-top: 30%;
+  cursor: pointer;
+  background-color: rgb(255, 220, 3);
+  background: rgb(255, 160, 0);
+  background: radial-gradient(circle, rgba(255, 160, 0, 1) 0%, rgba(255, 220, 3, 1) 100%);
+  -webkit-box-shadow: 2px 2px 2px 2px rgb(140, 52, 21);
+  box-shadow: 5px 5px 0px 0px rgb(140, 52, 21);
+  font-size: 22px;
+  border-radius: 2px;
+z-index: 10;
+position: fixed;
+display: flex;
+}
+.navbar{
+    width: 720px;
+    display: flex;
+    position: fixed;
+    z-index: 999!important;
+    align-items: center;
+    justify-content: flex-end;
+   margin-top:  50px;
+   margin-right: 20px;
+   height: 40px;
+}
+/*
+.soundIcon{
+margin-left: 510px;
+    margin-top: 20px;
+    position: fixed;
+
+}
+.screenIcon{
+    margin-left: 670px;
+        margin-top: 30px;
+        position: fixed;
+}*/
+.mobileOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 160, 0, 1) 0%, rgba(255, 220, 3, 1) 100%);
+  
+   
+   display: flex;
+flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    z-index: 1000;
+    font-size: 30px;
+} 
+
+.legalOverlay{
+    position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle, rgba(255, 160, 0, 1) 0%, rgba(255, 220, 3, 1) 100%);
+    
+    
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        z-index: 1000;
+        font-size: 10px;
+        text-align: justify;
+}
+/*
+.gameScreen{
+    margin-top: 25px;
+    
+   
+ } 
+
+    #gameScreen {
+            width: 100%;
+            height: 100%;
+           
+          
+            position: relative;
+            transition: transform 0.3s ease-in-out;
+            transform-origin: center center;
+        }
+*/
+ .legalText{
+    width: 600px;
+    max-height: 60%;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12px;
+    overflow-y: auto;
+ }
+ .zoomed {
+    width: 100%;
+        height: 100%;
+     transform: scale(1.5)!important;
+     /* Zoomfaktor 1.5 */
+     transform-origin: center center;
+     /* Mittelpunkt als Skalierungsbasis */
+     transition: transform 0.3s ease-in-out;
+     /* Weiche Übergänge */
+ }
+ .fullscreenclass {
+     width: 100vw !important;
+     height: 100vh !important;
+   background-size:cover ;
+    background-position: center;
+    margin: 0;
  }
