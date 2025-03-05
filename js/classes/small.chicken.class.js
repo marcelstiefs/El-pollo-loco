@@ -1,10 +1,7 @@
 class SmallChicken extends MovableObject {
     width = 40;
     height = 40;
-   
     y = 380;
-
-
     offset = {
         top: 0,
         left: 0,
@@ -21,23 +18,24 @@ class SmallChicken extends MovableObject {
     constructor() {
         super().loadImage('img/3_enemies_chicken/chicken_small/1_walk/1_w.png');
         this.loadImages(this.IMAGES_WALKING);
-        this.x = 200 + Math.random() * 500;
-        this.speed = 0.15 + Math.random() * 0.25
-        this.animate()
-
+        this.x = 500 + Math.random() * 2000;
+        this.speed = 0.15 + Math.random() * 1;
+        this.animate();
     }
 
-
-
-
+    /**
+     * Animates the object by continuously moving it left and playing the walking animation.
+     * 
+     * - Moves the object to the left at 60 FPS.
+     * - Cycles through walking images every 80ms.
+     */
     animate() {
-
         setInterval(() => {
             this.moveLeft();
-
         }, 1000 / 60);
+
         setInterval(() => {
             this.playAnimation(this.IMAGES_WALKING);
-        }, 150);
+        }, 80);
     }
 }

@@ -1,8 +1,6 @@
 class Coins extends PickableObject {
     width = 120;
     height = 120;
-
-
     offset = {
         top: 40,
         left: 40,
@@ -19,12 +17,6 @@ class Coins extends PickableObject {
         this.loadImages(this.IMAGES_COIN);
         this.x = 200 + Math.random() * 2000;
         this.y = 80 + Math.random() * 250;
-        //this.speed = 0.15 + Math.random() * 0.25
-        this.animate()
-
-  
-  
+        this.animate();
     }
-
-
 }

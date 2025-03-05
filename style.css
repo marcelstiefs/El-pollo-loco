@@ -45,6 +45,7 @@ h1{
 canvas{
     background-color: black;
     display: block;
+    image-rendering: pixelated;
   
   
   
@@ -55,13 +56,39 @@ canvas{
         display: flex;
     }
 } 
+
+@media screen and (max-height: 400px){
+    .startbtn{
+margin-bottom: 300px;
+z-index: 999;
+}
+.navbar{
+        margin-top: 80px;
+        top: 0px !important;
+}
+.endscreen img{
+width: 700px!important;
+height: 400px!important;
+margin-bottom: 50px; 
+}
+.restartbtn {
+    padding: 0px!important;
+    margin-top: 190px!important;
+}
+.backtomenu {
+    padding: 0px !important;
+    margin-top: 260px !important;
+}
+}
+
 @media  screen and ( max-height: 480px) {
     canvas{
         height: 100vh;
+        margin-top: 39px;
     }
                  .navbar {
                      position:fixed!important;
-                     top: -20px !important;
+                    /* top: -20px !important;*/
                      right: 0px !important;
                  }
  .startMenu{
@@ -71,16 +98,19 @@ canvas{
  }
 }
 @media (min-width:1000px) and (min-height:500px) {
-    .mobileIcons {
-        display: none !important;
-    }
+   
     .screenIcon{
         display: none!important;
     }
        
 }
+@media (hover: hover) and (pointer: fine) {
+    .mobileIcons {
+            display: none !important;
+        }
+}
 
-@media screen and (min-width: 500px){
+@media screen and (min-width: 600px){
 .mobileOverlay{
     display: none!important;
 }
@@ -172,7 +202,7 @@ z-index: 999;
  }
 .backtomenu{
   padding: 10px;
-  margin-top: 30%;
+  margin-top: 390px;
   cursor: pointer;
   background-color: rgb(255, 220, 3);
   background: rgb(255, 160, 0);
@@ -185,6 +215,21 @@ z-index: 10;
 position: fixed;
 display: flex;
 }
+.restartbtn{
+    padding: 10px;
+        margin-top: 270px;
+        cursor: pointer;
+        background-color: rgb(255, 220, 3);
+        background: rgb(255, 160, 0);
+        background: radial-gradient(circle, rgba(255, 160, 0, 1) 0%, rgba(255, 220, 3, 1) 100%);
+        -webkit-box-shadow: 2px 2px 2px 2px rgb(140, 52, 21);
+        box-shadow: 5px 5px 0px 0px rgb(140, 52, 21);
+        font-size: 22px;
+        border-radius: 2px;
+        z-index: 10;
+        position: fixed;
+        display: flex;
+}
 .navbar{
     width: 720px;
     display: flex;
@@ -193,7 +238,7 @@ display: flex;
     align-items: center;
     justify-content: flex-end;
    margin-top:  50px;
-   margin-right: 20px;
+   margin-right: 50px;
    height: 40px;
 }
 /*
@@ -209,7 +254,7 @@ margin-left: 510px;
         position: fixed;
 }*/
 .mobileOverlay {
-    position: fixed;
+  position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -219,51 +264,64 @@ margin-left: 510px;
    
    display: flex;
 flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
     z-index: 1000;
-    font-size: 30px;
+    font-size: 24px;
 } 
-
-.legalOverlay{
+.inneroverlay{
+    display: flex;
+        flex-direction: column;
+        align-items: center;
+       max-width: 320px;
+       text-align: center;
+}
+.mainOverlay{
     position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
+        z-index: 1000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+}
+.legalOverlay{
+    height: 480px;
+        width: 720px;
         background: radial-gradient(circle, rgba(255, 160, 0, 1) 0%, rgba(255, 220, 3, 1) 100%);
     
     
         display: flex;
         flex-direction: column;
-        justify-content: space-evenly;
+        justify-content: center;
         align-items: center;
-        z-index: 1000;
-        font-size: 10px;
+        z-index: 999;
+        font-size: 16px;
         text-align: justify;
 }
-/*
-.gameScreen{
-    margin-top: 25px;
-    
-   
- } 
+.playInfoOverlay{
 
-    #gameScreen {
-            width: 100%;
-            height: 100%;
-           
-          
-            position: relative;
-            transition: transform 0.3s ease-in-out;
-            transform-origin: center center;
-        }
-*/
+         height: 480px;
+        width:720px;
+        background: radial-gradient(circle, rgba(255, 160, 0, 1) 0%, rgba(255, 220, 3, 1) 100%);
+    
+    
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
+        font-size: 20px;
+        text-align: justify;
+}
+
  .legalText{
     width: 600px;
     max-height: 60%;
     font-family: 'Courier New', Courier, monospace;
-    font-size: 12px;
+    font-size: 16px;
     overflow-y: auto;
  }
  .zoomed {

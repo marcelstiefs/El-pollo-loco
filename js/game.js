@@ -11,37 +11,60 @@ chickenBackground.volume = 0.2;
 backgroundmusic.loop = true;
 chickenBackground.loop = true;
 
+let navbar = document.getElementById('navbar');
+let winningScreen = document.getElementById('winningScreen');
+let endscreenLose = document.getElementById('endscreenLose');
+let infoIcon = document.getElementById('infoIcon')
+let closeIcon = document.getElementById('closeIcon');
+let legal = document.getElementById('legal')
+let startMenu = document.getElementById("startMenu");
+let mobileIcons = document.getElementById('mobileIcons');
+let canvasAndIcons = document.getElementById('canvasAndIcons');
+let soundOn = document.getElementById("soundOn");
+let soundOff = document.getElementById("soundOff");
+let gamescreen = document.getElementById("gameScreen");
+let fullscreenIcon = document.getElementById('fullscreenIcon');
+let notFullscreenIcon = document.getElementById('notFullscreenIcon');
+let legalOverlay = document.getElementById('legalOverlay');
+let mainOverlay = document.getElementById('mainOverlay');
+let playInfoOverlay = document.getElementById("playInfoOverlay");
 
+/**
+ * Initializes the application by setting the global `world` object to `null`
+ * and retrieving the `canvas` element from the DOM.
+ */
 function init() {
     world = null;
     canvas = document.getElementById("canvas");
-    if(notMute){
-      //  backgroundmusic.play();
-    }
-   // world = new World(canvas, keyboard);
 
-    //console.l;og('My Character is', world.character);
 }
 
+/**
+ * Manages the playback of background music and game sound effects at 1-second intervals.
+ * 
+ * - Plays or pauses `backgroundmusic` and `chickenBackground` based on the `notMute` and `gameIsRunning` flags.
+ * - Resets the audio to the beginning when paused to ensure it starts from the beginning on the next play.
+ * - Handles playback errors gracefully by logging them to the console.
+ */
 setInterval(() => {
     if (notMute) {
         if (backgroundmusic.paused) {
-            backgroundmusic.play().catch((err) => console.error('Fehler beim Abspielen von backgroundmusic:', err));
+            backgroundmusic.play();
         }
         if (gameIsRunning) {
             if (chickenBackground.paused) {
-                chickenBackground.play().catch((err) => console.error('Fehler beim Abspielen von chickenBackground:', err));
+                chickenBackground.play();
             }
         } else {
             if (!chickenBackground.paused) {
                 chickenBackground.pause();
-                chickenBackground.currentTime = 0; // Stoppt den Sound beim Beenden des Spiels
+                chickenBackground.currentTime = 0;
             }
         }
     } else {
         if (!backgroundmusic.paused) {
             backgroundmusic.pause();
-            backgroundmusic.currentTime = 0; // Startet den Sound beim nächsten Play von vorne
+            backgroundmusic.currentTime = 0;
         }
         if (!chickenBackground.paused) {
             chickenBackground.pause();
@@ -52,188 +75,115 @@ setInterval(() => {
 
 
 window.addEventListener("keydown", (event) => {
-    
-   
-    if (event.keyCode == 39) {
-        keyboard.RIGHT = true;
-    }
-    if (event.keyCode == 37) {
-        keyboard.LEFT = true;
-    }
-    if (event.keyCode == 38) {
-        keyboard.UP = true;
-    }
-    if (event.keyCode == 40) {
-        keyboard.DOWN = true;
-    }
-    if (event.keyCode == 32) {
-        keyboard.SPACE = true;
-    }
+    if (event.keyCode == 39) keyboard.RIGHT = true;
+    if (event.keyCode == 37) keyboard.LEFT = true;
+    if (event.keyCode == 38) keyboard.UP = true;
+    if (event.keyCode == 40) keyboard.DOWN = true;
+    if (event.keyCode == 32) keyboard.SPACE = true;
 });
 
 window.addEventListener("keyup", (event) => {
-    
-
-    if (event.keyCode == 39) {
-        keyboard.RIGHT = false;
-    }
-    if (event.keyCode == 37) {
-        keyboard.LEFT = false;
-    }
-    if (event.keyCode == 38) {
-        keyboard.UP = false;
-    }
-    if (event.keyCode == 40) {
-        keyboard.DOWN = false;
-    }
-    if (event.keyCode == 32) {
-        keyboard.SPACE = false;
-    }
+    if (event.keyCode == 39) keyboard.RIGHT = false;
+    if (event.keyCode == 37) keyboard.LEFT = false;
+    if (event.keyCode == 38) keyboard.UP = false;
+    if (event.keyCode == 40) keyboard.DOWN = false;
+    if (event.keyCode == 32) keyboard.SPACE = false;
 });
 
 
 
 document.addEventListener("DOMContentLoaded", () => {
-    // Button: Links
-    const btnLeft = document.getElementById("btnLeft");
-    if (!btnLeft) {
-        console.error("Button with ID 'btnLeft' not found!");
-        return;
-    }
-    btnLeft.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        keyboard.LEFT = true;
-    });
-    btnLeft.addEventListener('touchend', (e) => {
-        e.preventDefault();
-        keyboard.LEFT = false;
-    });
+    /**
+     * Adds touch event listeners to a button.
+     * @param {string} buttonId - The ID of the button.
+     * @param {string} key - The corresponding key in the keyboard object.
+     */
+    function addTouchControls(buttonId, key) {
+        let button = document.getElementById(buttonId);
 
-    // Button: Rechts
-    const btnRight = document.getElementById("btnRight");
-    if (!btnRight) {
-        console.error("Button with ID 'btnRight' not found!");
-        return;
+        button.addEventListener("touchstart", (e) => {
+            e.preventDefault();
+            keyboard[key] = true;
+        });
+        button.addEventListener("touchend", (e) => {
+            e.preventDefault();
+            keyboard[key] = false;
+        });
     }
-    btnRight.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        keyboard.RIGHT = true;
-    });
-    btnRight.addEventListener('touchend', (e) => {
-        e.preventDefault();
-        keyboard.RIGHT = false;
-    });
 
-    // Button: Werfen (Throw)
-    const btnThrow = document.getElementById("btnThrow");
-    if (!btnThrow) {
-        console.error("Button with ID 'btnThrow' not found!");
-        return;
+    /**
+     * Initializes all touch controls.
+     */
+    function initializeTouchControls() {
+        let controls = [
+            { id: "btnLeft", key: "LEFT" },
+            { id: "btnRight", key: "RIGHT" },
+            { id: "btnThrow", key: "SPACE" },
+            { id: "btnJump", key: "UP" }
+        ];
+        controls.forEach(control => addTouchControls(control.id, control.key));
     }
-    btnThrow.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        keyboard.SPACE = true;
-    });
-    btnThrow.addEventListener('touchend', (e) => {
-        e.preventDefault();
-        keyboard.SPACE = false;
-    });
-
-    // Button: Springen (Jump)
-    const btnJump = document.getElementById("btnJump");
-    if (!btnJump) {
-        console.error("Button with ID 'btnJump' not found!");
-        return;
-    }
-    btnJump.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        keyboard.UP = true;
-    });
-    btnJump.addEventListener('touchend', (e) => {
-        e.preventDefault();
-        keyboard.UP = false;
-    });
+    initializeTouchControls();
 });
 
- 
- let closeGame = document.getElementById('closeGame');
-let legal = document.getElementById('legal')
-function startGame(){
-   
-    let mobileIcons = document.getElementById('mobileIcons');
-    let canvasAndIcons = document.getElementById('canvasAndIcons');
-   let canvas = document.getElementById('canvas');
-    let startMenu = document.getElementById("startMenu");
+/**
+ * Initializes the game, updates UI elements, and starts the game world.
+ */
+function startGame() {
     initLevel();
     startMenu.classList.add('d-none');
+    infoIcon.classList.add('d-none');
     canvas.classList.remove('d-none');
-    closeGame.classList.remove('d-none');
-
+    closeIcon.classList.remove('d-none');
     canvasAndIcons.classList.remove('d-none');
     mobileIcons.classList.remove('d-none');
     legal.classList.add('d-none');
     world = new World(canvas, keyboard);
     gameIsRunning = true;
 }
-let startMenu = document.getElementById("startMenu");
-function backToMenu(){
-    endscreenfail = false;
-    
-    let navbar = document.getElementById("navbar");
-    let endscreenWin = document.getElementById("endscreenWin");
-    let endscreenLose = document.getElementById("endscreenLose");
-    
-    endscreenLose.classList.add('d-none');
-    endscreenWin.classList.add('d-none');
-    legal.classList.remove('d-none');
-   
-    startMenu.classList.remove('d-none');
-    navbar.classList.remove('d-none');
-    closeGame.classList.add('d-none');
-    gameIsRunning = false;
 
+/**
+ * Returns to the main menu, resets the game state, and updates UI elements.
+ */
+function backToMenu() {
+    endscreenfail = false;
+    endscreenLose.classList.add('d-none');
+    winningScreen.classList.add('d-none');
+    legal.classList.remove('d-none');
+    startMenu.classList.remove('d-none');
+    infoIcon.classList.remove('d-none');
+    navbar.classList.remove('d-none');
+    closeIcon.classList.add('d-none');
+    gameIsRunning = false;
     world = null;
 }
 
-
-
-function soundMute() {
-    const soundOn = document.getElementById("soundOn");
-    const soundOff = document.getElementById("soundOff");
-
-    // Toggle soundsEnabled-Status
-  //  world.character.soundsEnabled = !world.character.soundsEnabled;
-
-    // Alle Sounds ein- oder ausschalten
-   // for (let sound in character.allsounds) {
-      //  character.allsounds[sound].muted = !character.soundsEnabled;
-//    }
-
-    // Icon wechseln
-    if (notMute) {
-       soundOn.classList.add("d-none");
-        soundOff.classList.remove("d-none");
-        notMute = false
-       
-        
-        
-    } else { 
-         soundOn.classList.remove("d-none");
-        soundOff.classList.add("d-none");
-       
-        notMute = true
-       
-      
-    }
-
-
-
+/**
+ * Restarts the game by returning to the menu and starting a new game.
+ */
+function restartGame() {
+    backToMenu();
+    startGame();
 }
-let gamescreen = document.getElementById("gameScreen");
-let fullscreenIcon = document.getElementById('fullscreenIcon');
-let notFullscreenIcon = document.getElementById('notFullscreenIcon');
 
-// Fullscreen aktivieren
+/**
+ * Toggles the sound on or off and updates the sound icons accordingly.
+ */
+function soundMute() {
+    if (notMute) {
+        soundOn.classList.add("d-none");
+        soundOff.classList.remove("d-none");
+        notMute = false;
+    } else {
+        soundOn.classList.remove("d-none");
+        soundOff.classList.add("d-none");
+        notMute = true;
+    }
+}
+
+/**
+ * Enables fullscreen mode for the game screen and updates UI elements.
+ */
 function openFullscreen() {
     if (gamescreen.requestFullscreen) {
         gamescreen.requestFullscreen();
@@ -248,22 +198,30 @@ function openFullscreen() {
     startMenu.classList.add('fullscreenclass');
 }
 
-// Fullscreen beenden
+/**
+ * Exits fullscreen mode and restores UI elements.
+ */
 function closeFullscreen() {
-    if (document.exitFullscreen) {
-        document.exitFullscreen();
-    } else if (document.webkitExitFullscreen) {
-        document.webkitExitFullscreen();
-    } else if (document.msExitFullscreen) {
-        document.msExitFullscreen();
+    if (document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement) {
+        if (document.exitFullscreen) {
+            document.exitFullscreen().catch(err => console.warn("Fehler beim Beenden des Vollbildmodus:", err));
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        }
     }
     canvas.classList.remove('fullscreenclass');
     fullscreenIcon.classList.remove('d-none');
     notFullscreenIcon.classList.add('d-none');
+    startMenu.classList.remove('fullscreenclass');
     resetZoom();
 }
 
-// Zoom-Anpassung
+/**
+ * Adjusts the zoom level of the game screen based on the window size in fullscreen mode.
+ * Resets the zoom if not in fullscreen.
+ */
 function adjustZoom() {
     if (document.fullscreenElement) {
         let scaleX = window.innerWidth / gamescreen.offsetWidth;
@@ -277,79 +235,28 @@ function adjustZoom() {
     }
 }
 
-// Zoom zurücksetzen
+/**
+ * Resets the zoom and restores the original size of the game screen.
+ */
 function resetZoom() {
     gamescreen.style.transform = 'scale(1)';
     gamescreen.style.width = '';  // Originalbreite wiederherstellen
     gamescreen.style.height = '';
 }
 
-// Events für automatische Zoom-Anpassung
+
 document.addEventListener('fullscreenchange', adjustZoom);
 window.addEventListener('resize', adjustZoom);
 
-
-/*
-  
-    
-
-   
-let gamescreen = document.getElementById("gameScreen");
-let fullscreenIcon = document.getElementById('fullscreenIcon');
-let notFullscreenIcon = document.getElementById('notFullscreenIcon');
-
-// Fullscreen aktivieren
-function openFullscreen() {
-    if (gamescreen.requestFullscreen) {
-        gamescreen.requestFullscreen();
-    } else if (gamescreen.webkitRequestFullscreen) {
-        gamescreen.webkitRequestFullscreen();
-    } else if (gamescreen.msRequestFullscreen) {
-        gamescreen.msRequestFullscreen();
-    }
-    fullscreenIcon.classList.add('d-none');
-    notFullscreenIcon.classList.remove('d-none');
-}
-
-// Fullscreen beenden
-function closeFullscreen() {
-    if (document.exitFullscreen) {
-        document.exitFullscreen();
-    } else if (document.webkitExitFullscreen) {
-        document.webkitExitFullscreen();
-    } else if (document.msExitFullscreen) {
-        document.msExitFullscreen();
-    }
-    fullscreenIcon.classList.remove('d-none');
-    notFullscreenIcon.classList.add('d-none');
-}
-
-// Zoom-Anpassung
-function adjustZoom() {
-    if (document.fullscreenElement) {
-        let scaleX = window.innerWidth / gamescreen.offsetWidth;
-        let scaleY = window.innerHeight / gamescreen.offsetHeight;
-        let scale = Math.min(scaleX, scaleY); // Proportional skalieren
-        gamescreen.style.transform = `scale(${scale})`;
-        gamescreen.style.transformOrigin = 'center center';
-    } else {
-        gamescreen.style.transform = 'scale(1)'; // Zurücksetzen
-    }
-}
-
-// Events für automatische Zoom-Anpassung
-document.addEventListener('fullscreenchange', adjustZoom);
-window.addEventListener('resize', adjustZoom);
-
+/**
+ * Displays the legal information pop-up, including contact details, disclaimer, and copyright notice.
  */
-let legalOverlay = document.getElementById('legalOverlay');
-    function legalPopUp(){
-        let legalText = document.getElementById('legalText');
-        legalOverlay.classList.remove('d-none');
-        legalText.innerHTML=/*html*/`
-
+function legalPopUp() {
+    let legalText = document.getElementById('legalText');
+    mainOverlay.classList.remove('d-none');
+    legalOverlay.classList.remove('d-none');
+    legalText.innerHTML =/*html*/`
          <h1>Impressum</h1>
-
         <h2>Verantwortliche Instanz</h2>
         <p><strong>Marcel Stiefs</strong><br>
         Königstraße 24<br>
@@ -376,15 +283,61 @@ let legalOverlay = document.getElementById('legalOverlay');
         <h2>Urheberrechtserklärung</h2>
         <p>Die Urheber- und alle a
             License Erwähnungen:
-            <a href="https://www.freepik.com<a href=" https://www.freepik.com/icon/screen_8373473 
-            href="https://www.freepik.com/icon/screen_8373473#fromView=resource_detail&position=7">Icon by Icon Hubs</a>
-            <a href="https://www.flaticon.com/de/kostenlose-icons/impressum" title="impressum Icons">Icons erstellt von Picons - Flaticon</a>
+           <a href="https://www.freepik.com">Freepik</a>
+<a href="https://www.freepik.com/icon/screen_8373473#fromView=resource_detail&position=7" title="Screen Icon">Icon by Icon Hubs</a>
+<a href="https://www.flaticon.com/de/kostenlose-icons/impressum" title="Impressum Icons">Icons erstellt von Picons - Flaticon</a>
+<a href="https://www.flaticon.com/de/kostenlose-icons/information" title="Information Icons">Information Icons erstellt von Freepik - Flaticon</a>
+</span>`
+}
 
-
-          </span>
-
-         `
-    } 
-function closeLegalOverlay(){
+/**
+ * Closes the legal information overlay by hiding it.
+ */
+function closeLegalOverlay() {
+    mainOverlay.classList.add('d-none');
     legalOverlay.classList.add('d-none');
+}
+
+function infoPopUp() {
+    mainOverlay.classList.remove('d-none')
+    playInfoOverlay.classList.remove('d-none')
+}
+
+function closePlayInfoOverlay() {
+    mainOverlay.classList.add('d-none')
+    playInfoOverlay.classList.add('d-none')
+}
+
+/**
+ * Ends the game and returns to the main menu.
+ * Hides UI elements, stops game intervals, and resets the game world.
+ */
+function closeGame() {
+    let endboss = world.level.enemies.find(enemy => enemy instanceof Endboss);
+    mobileIcons.classList.add('d-none');
+    canvas.classList.add('d-none');
+    world.character.stopAllIntervals();
+    endboss.stopAllIntervals();
+    gameIsRunning = false;
+    world = null;
+    navbar.classList.add('d-none');
+    backToMenu();
+}
+
+/**
+ * Displays the win screen after defeating the Endboss.
+ * Hides the game elements, stops intervals, and shows the win screen.
+ */
+function endScreenWin() {
+    let endboss = world.level.enemies.find(enemy => enemy instanceof Endboss);
+    setTimeout(() => {
+        mobileIcons.classList.add('d-none');
+        canvas.classList.add('d-none');
+        closeFullscreen();
+        winningScreen.classList.remove('d-none');
+        world.character.stopAllIntervals();
+        endboss.stopAllIntervals();
+    }, 1500);
+    gameIsRunning = false;
+    navbar.classList.add('d-none');
 }
